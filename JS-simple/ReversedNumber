@@ -1,0 +1,9 @@
+function numbers(arr){
+    let x = arr.toString();
+    let y = x.split(",");
+    let z = y.reverse();
+    let result = z.join("\n");
+    console.log(result);
+}
+
+numbers("10,20,30");
