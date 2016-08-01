@@ -1,0 +1,6 @@
+let tokens = "C#, Java,,, , ,, , PHP, HTML".split(",");
+
+tokens = tokens.map(s => s.trim());
+tokens = tokens.filter(s => s != "" );
+
+console.log(tokens);
