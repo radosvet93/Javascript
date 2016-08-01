@@ -1,0 +1,12 @@
+function capitalLetters(arr){
+    let text = arr.join(",");
+    let words = text.split(/\W+/).filter(x => x != "");
+    let capitalWords = words.filter(x => x.toUpperCase() == x)
+        .join(", ");
+    console.log(capitalWords);
+}
+
+capitalLetters([
+    '...We start be HTML, CSS, JavaScript, JSON and REST',
+    'Later we touch some PHP,, ,, ,, MySQL, and SQL...'
+]);
