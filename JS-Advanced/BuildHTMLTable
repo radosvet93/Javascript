@@ -1,0 +1,47 @@
+function solve (input) {
+    let start = parseInt(input[0]);
+    let end = parseInt(input[1]);
+
+    let result ='';
+
+    result += '<table>\n';
+    result += '<tr><th>Num</th><th>Square</th><th>Fib</th></tr>\n';
+    for (let i = start; i <= end; i += 1) {
+        result += '<tr><td>' + i + '</td><td>' + (i * i) + '</td><td>' + printIsFib(i) + '</td></tr>\n';
+    }
+    result += '</table>\n';
+
+
+    console.log(result);
+
+    function isFib(number) {
+        let first = 1;
+        let second = 1;
+
+        if(number === 1) {
+            return true;
+        }
+
+        while (true) {
+            let temp = first;
+            first = second;
+            second += temp;
+
+            if (number === second) {
+                return true;
+            }
+
+            if (number < second) {
+                break;
+            }
+        }
+
+
+        return false;
+    }
+    function printIsFib (number) {
+        return isFib(number) ? 'yes' : 'no';
+    }
+
+}
+solve([2,6]);
