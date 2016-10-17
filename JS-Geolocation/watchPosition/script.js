@@ -73,6 +73,10 @@ function showMap(coords) {
         mapTypeId:google.maps.MapTypeId.ROADMAP
     };
     var mapDiv = document.getElementById("map");
+    mapDiv.style.width = "500px";
+    mapDiv.style.height = "500px";
+    mapDiv.style.border = "1px black solid";
+
     map = new google.maps.Map(mapDiv, mapOptions);
     //user marker,user location
     var title = "Your location";
