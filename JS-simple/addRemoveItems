@@ -1,0 +1,19 @@
+let addButton = document.getElementById("button");
+addButton.onclick = function () {
+    let text = document.getElementById("text").value;
+    let li = document.createElement("li");
+    li.textContent = text;
+
+    let span = document.createElement("span");
+    span.innerHTML = " <a href='#'>[Delete]</a>";
+    li.appendChild(span);
+
+    let ul = document.getElementById("list");
+    ul.appendChild(li);
+    document.getElementById("text").value = "";
+    span.addEventListener("click", function(){
+        let li = span.parentNode;
+        li.parentNode.removeChild(li);
+    });
+};
+
