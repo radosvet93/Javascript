@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var lastReportTime = 0;
+        window.onload = function() {
+            var interval = setInterval(handleRefresh, 3000);
+        };
+
+        function handleRefresh() {
+            console.log("here");
+            var url = "http://gumball.wickedlysmart.com" +
+                    "?callback=updateSales" +
+                    "&lastreporttime=" + lastReportTime +
+                    "&random=" + (new Date()).getTime();
+
+            var newScript = document.createElement("script");
+            newScript.setAttribute("src",url);
+            newScript.setAttribute("id","jsonp");
+
+            var oldScript = document.getElementById("jsonp");
+            var head = document.getElementsByTagName("head")[0];
+            if(oldScript == null){
+                head.appendChild(newScript);
+            }else {
+                head.replaceChild(newScript,oldScript);
+            }
+        }
+
+
+        function updateSales(sales) {
+            var salesDiv = document.getElementById("sales");
+            for (var i = 0; i<sales.length; i++) {
+                var sale = sales[i];
+                var div = document.createElement("div");
+                div.setAttribute("class", "saleItem");
+                div.innerHTML = sale.name + " sold " + sale.sales + " gumballs ";
+                salesDiv.appendChild(div);
+                if(salesDiv.childElementCount == 0){
+                    salesDiv.appendChild(div);
+                }else{
+                    salesDiv.insertBefore(div,salesDiv.firstChild);
+                }
+            }
+            if(sales.length>0){
+                lastReportTime = sales[sales.length-1].time;
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Web app</h1>
+    <div id="sales"></div>
+</body>
+</html>
