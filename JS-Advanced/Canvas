@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+    <style>
+        canvas{
+            border:1px black solid;
+        }
+    </style>
+</head>
+<body>
+<canvas id="tshirtCanvas" width="600" height="200">
+    <p>Please upgrade your browser to use Tweetshirt</p>
+</canvas>
+<form>
+    <p>
+        <label for="backgroundColor">Select background color:</label>
+        <select id="backgroundColor">
+            <option value="white" selected="selected">White</option>
+            <option value="black">Black</option>
+        </select>
+    </p>
+    <p>
+        <label for="shape">Circles or squares</label>
+        <select id="shape">
+            <option value="none" selected="selected">Neither</option>
+            <option value="circles">Circles</option>
+            <option value="squares">Squares</option>
+        </select>
+    </p>
+    <input type="button" id="previewButton" value="Preview">
+</form>
+<script>
+    window.onload = function () {
+        var button = document.getElementById("previewButton");
+        button.onclick = previewHandler;
+    };
+
+    function previewHandler(){
+        var canvas = document.getElementById("tshirtCanvas");
+        var context = canvas.getContext("2d");
+
+        fillBackgroundColor(canvas,context);
+        var selectObj = document.getElementById("shape");
+        var index = selectObj.selectedIndex;
+
+        var shape = selectObj[index].value;
+        if(shape == "squares"){
+            for(var squares = 0;squares<=20;squares++){
+                drawSquare(canvas,context);
+            }
+        }else if(shape == "circles"){
+            for(var circles = 0;circles<=20;circles++){
+                drawCircle(canvas, context);
+            }
+        }
+    }
+
+    function drawSquare(canvas,context){
+        var w = Math.floor(Math.random() * 40);
+        var x = Math.floor(Math.random() * canvas.width);
+
+        var y = Math.floor(Math.random() * canvas.height);
+        context.fillStyle = "lightblue";
+
+        context.fillRect(x,y,w,w);
+    }
+
+    function drawCircle(canvas, context) {
+        var radius = Math.floor(Math.random() * 40);
+        var x = Math.floor(Math.random() * canvas.width);
+
+        var y = Math.floor(Math.random() * canvas.height);
+        context.beginPath();
+        context.arc(x,y,radius,0,2 * Math.PI,true);
+        context.stroke();
+        context.fillStyle = "lightblue";
+
+        context.fill();
+    }
+
+    function fillBackgroundColor(canvas, context) {
+        var selectObj = document.getElementById("backgroundColor");
+        var index = selectObj.selectedIndex;
+        var bgColor = selectObj.options[index].value;
+        context.fillStyle = bgColor;
+        context.fillRect(0,0,600,200);
+    }
+
+
+
+</script>
+</body>
+</html>
