@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <style>
+        #items li{
+            display: inline;
+            padding:10px;
+            margin:10px;
+            width:50px;
+            border:1px black solid;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<ul id="items">
+    <li>Sofia</li>
+    <li>Pleven</li>
+    <li>Burgas</li>
+</ul>
+
+<button id="showTownsButton">Show Towns</button>
+
+<div id="selectedTowns"></div>
+<script>$(function() { attachEvents()})</script>
+<script>
+    function attachEvents() {
+        $("#showTownsButton").on("click",show);
+        $("#items li").on("click",select);
+
+
+        function select() {
+            if($(this).attr("data-selected")){
+                $(this).removeAttr("data-selected");
+                $(this).css("background","");
+            }else{
+                $(this).attr("data-selected","true");
+                $(this).css("background","#DDD");
+            }
+
+        }
+
+
+        function show() {
+            let showItems = $("#items li[data-selected]").toArray()
+                            .map(li => li.textContent)
+                            .join(", ");
+            $("#selectedTowns").text(showItems);
+        }
+    }
+</script>
+</body>
+</html>
