@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <style>
+        #timer {
+            font-size: 5em;
+        }
+    </style>
+</head>
+<body>
+
+<div id="timer">
+    <span id="hours" class="timer">00</span>:
+    <span id="minutes" class="timer">00</span>:
+    <span id="seconds" class="timer">00</span>
+</div>
+<button id="start">Start</button>
+<button id="stop">Stop</button>
+
+
+<script>
+    $(function(){timer()});
+
+    function timer() {
+        let startBtn = $("#start");
+        let stopBtn = $("#stop");
+
+        let interval = undefined;
+
+        startBtn.click(function(){
+            if(!interval) { // check if the interval is there
+                interval = setInterval(step, 1000);
+            }
+        });
+
+        stopBtn.click(function(){
+            clearInterval(interval);
+            interval = undefined;
+        });
+        let secondsElement = $("#seconds");
+        let minutesElement = $("#minutes");
+        let hoursElement = $("#hours");
+        let totalSeconds = 0;
+
+        function step(){
+            totalSeconds++;
+            secondsElement.text(formatTime(totalSeconds % 60));
+            let mins = totalSeconds / 60;
+            minutesElement.text(formatTime(mins % 60));
+            let hour = totalSeconds / 3600;
+            hoursElement.text(formatTime(hour));
+
+        }
+
+        //when the first number is 0, and it's going to be 00,01,02 not 1,2,3
+        function formatTime(num) {
+            return pad(Math.floor(num));
+        }
+        function pad(num){
+            if(num < 10){
+                num = `0${num}`;
+            }
+            return num;
+        }
+
+    }
+</script>
+</body>
+</html>
