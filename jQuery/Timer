@@ -31,10 +31,11 @@
         let interval = undefined;
 
         startBtn.click(function(){
-            if(!interval) { // check if the interval is there
+            if(!interval) {
                 interval = setInterval(step, 1000);
             }
         });
+
 
         stopBtn.click(function(){
             clearInterval(interval);
@@ -55,13 +56,13 @@
 
         }
 
-        //when the first number is 0, and it's going to be 00,01,02 not 1,2,3
         function formatTime(num) {
             return pad(Math.floor(num));
         }
         function pad(num){
             if(num < 10){
                 num = `0${num}`;
+
             }
             return num;
         }
