@@ -1,0 +1,14 @@
+function solve() {
+    let innerNum = 0;
+    function add(num) {
+        innerNum += num;
+        return add;//() we don't use it because we don't want a infinity recursion
+
+    }
+    add.valueOf = ()=> innerNum;//+ or valueOf overwrite the method
+    add.toString = ()=> innerNum;//"" + or toString
+    return add;
+}
+
+let add = solve();
+console.log(add(10)(2).toString());
