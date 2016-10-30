@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Search</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+            crossorigin="anonymous"></script>
+    <style>
+        .add-controls, .search-controls {
+            width: 20em;
+            height: 2em;
+        }
+        input {
+            position: absolute;
+            left:7em;
+        }
+        .button {
+            background-color: darkgrey;
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            left: 15em;
+            border: 1px solid black;
+            padding: 0 5px 0 5px;
+        }
+        .result-controls .button {
+            position: relative;
+            left: 0;
+            font-size: 60%;
+            margin-right:1em;
+            padding: 0;
+            bottom: 3px;
+        }
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<div id="content"></div>
+<script>
+    domSearch("#content",false);
+    
+    function domSearch(selector, caseSensitive) {
+
+        function addElement() {
+            let element = $(".add-controls").find('input').val();
+
+            let item = $(`<li class="list-item">
+        <a class="button">X</a>
+        <strong>${element}</strong></li>`);
+            item.find("a").click(removeElement);
+            $(".items-list").append(item);
+            $(".add-controls").find("input").val("");
+        }
+
+        function removeElement() {
+            let removeBtn = $(this).parent().remove();
+        }
+
+
+
+
+        function generateHTML() {
+            let addControls = $(`<div class="add-controls">
+<label>Enter text: <input></label>
+<a class="button" style="display: inline-block;">Add</a>"
+</div>`);
+            let searchControls = $(`<div class="search-controls">
+<label>Search: <input></label>
+</div>`);
+            let resultControls = $(`<div class="result-controls">
+<ul class="items-list">
+
+</ul>
+</div>`);
+            addControls.find("a").click(addElement);
+            searchControls.find("input").keyup(search);
+            $(selector).append(addControls)
+                        .append(searchControls)
+                        .append(resultControls);
+
+
+        }
+
+        function search() {
+            let word = $(".search-controls").find("input").val()
+
+            let items = $(".items-list li");
+            for(let i = 0;i<items.length;i++){
+                let item = items.eq(i);
+                let textContent = item.find("strong").text();
+                if(!caseSensitive){
+                    textContent = textContent.toLowerCase();
+                }
+                if (!textContent.includes(word)){
+                     items.eq(i).css('display', 'none');
+                }else {
+                    items.eq(i).css('display','');
+                }
+            }
+
+
+        }
+        generateHTML(selector,caseSensitive);
+
+    }
+
+</script>
+</body>
+</html>
