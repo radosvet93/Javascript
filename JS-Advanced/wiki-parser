@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wiki Parser</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div>
+    <p id="wiki">
+        =Document title=
+        ==First segment==
+        '''bold 1''' word ''italics 1'' '''bold2'''
+        [[hyper first]] '''Bold three''' ''italics2'''
+        word [[hyper2]] [[hyperlink2|with Label]]
+        ==Second segment==
+        ===Third segment===
+        word '''word'''[[pipe|bomb]]
+    </p>
+</div>
+<script>
+    window.onload = function(){
+        wikiParser('#wiki');
+    };
+
+    function wikiParser(selector) {
+        let content = $(selector);
+        let text = content.text();
+
+        //replace
+
+        text = replaceTag(text,'===','h3');
+        text = replaceTag(text,'==','h2');
+        text = replaceTag(text,'=','h1');
+
+        text = replaceTag(text,"'''",'b');
+        text = replaceTag(text,"''",'i');
+        text = replaceAnchor(text)
+
+
+
+
+        content.text(text);
+        function replaceTag(str,symbol,tag) {
+            let pattern = `${symbol}(.*?)${symbol}`;
+            let regex = new RegExp(pattern, 'g');
+            return str.replace(regex, (m,g) => `<${tag}>${g}</${tag}>`);
+
+        }
+
+        function replaceAnchor(str) {
+            let result = str;
+
+            let pattern = `\\[\\[([^\\[\\]]*?)\\|([^\\[\\]]*?)\\]\\]`;
+            let regex = new RegExp(pattern, 'g');
+            result = result.replace(regex,(m,g1,g2) => `<a href="/wiki/${g1}">${g2}</a>`)
+
+            pattern = `\\[\\[([^\\[\\]]*?)\\]\\]`;
+            regex = new RegExp(pattern, 'g');
+
+            result = result.replace(regex,(m,g)=>`<a href="/wiki/${g}">${g}</a>`);
+            return result;
+
+        }
+        content.html(text);
+
+    }
+</script>
+</body>
+
+</html>
