@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Search</title>
+    <style>
+        body{
+            background: #DDeeee;
+            color: green;
+        }
+        #searcharea{
+            margin:0 auto;
+            text-align: center;
+            background: #de341e;
+            padding: 10px;
+            width:30%;
+            -webkit-border-radius: 10px 10px 0 0;
+            -moz-border-radius: 10px 10px 0 0;
+            border-radius: 10px 10px 0 0;
+
+
+        }
+
+        #searcharea label {
+            font:bold 1.3em Arial;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            color: #A61c1c;
+
+        }
+
+        #searcharea p {
+            margin:0;
+            line-height: 1em;
+            padding-bottom: 5px;
+        }
+
+        #searcharea input {
+            width:80%;
+            text-align: center;
+        }
+
+        #update {
+            font-family: Georgia, "Times New Roman",Times,serif;
+            width:70%;
+            margin:0 auto;
+            border-top:1px dotted #ccc;
+        }
+
+        #update ul {
+            list-style: none;
+            margin:0;
+            padding:0;
+        }
+
+        #update li {
+            width:100%;
+            padding:0 20px;
+            background: #eee;
+            padding-bottom: 10px;
+            height:110px;
+            overflow: hidden;
+            border-bottom:1px dotted #ccc;
+            -webkit-animation:myanim 1s;
+            -moz-animation:myanim 1s;
+            -o-animation:myanim 1s;
+            animation:myanim 1s;
+
+            -webkit-transition: height 0.3s ease-out;
+            -moz-transition: height 0.3s ease-out;
+            -ms-transition: height 0.3s ease-out;
+            -o-transition: height 0.3s ease-out;
+            transition: height 0.3s ease-out;
+        }
+
+        #update li:hover {
+            background: #fffce5;
+            min-height:110px;
+            height:250px;
+            overflow: visible;
+        }
+
+        #update h2 {
+            margin:0;
+            padding:0;
+            font-size:1.2em;
+            padding-bottom: 5px;
+            padding-top:20px;
+            font-family: Arial,Helvetica,sans-serif;
+            color: #bf5841;
+            border-bottom: 1px dotted #ccc;
+            margin-bottom: 10px;
+
+        }
+
+        #update img {
+            float: left;
+            width:80px;
+            margin-right: 10px;
+            -webkit-border-radius:10px;
+            -moz-border-radius:10px;
+            border-radius:10px;
+        }
+
+        @keyframes myanim {
+            0% {opacity:0.3;}
+            100% {opacity:1.0;}
+        }
+        @-moz-keyframes myanim {
+            0% {opacity:0.3;}
+            100% {opacity:1.0;}
+        }
+        @-webkit-keyframes myanim {
+            0% {opacity:0.3;}
+            100% {opacity:1.0;}
+        }
+        @-o-keyframes myanim {
+            0% {opacity:0.3;}
+            100% {opacity:1.0;}
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div id="searcharea">
+    <label for="search">Live Search</label>
+    <p>Enter the name or info about a speaker</p>
+    <input type="search" name="search" id="search" placeholder="name or info">
+</div>
+<div id="update"></div>
+<script>
+    $("#search").keyup(function(){
+        let searchField = $("#search").val();
+        let myExp = new RegExp(searchField,"i");
+        $.getJSON("data.json",function(data){
+            let output = "<ul class='searchresults'>";
+            $.each(data, function(key,val){
+                if(val.name.search(myExp) != -1 || val.bio.search(myExp) != -1) {
+                    output += "<li>";
+                    output += "<h2>" + val.name + "</h2>";
+                    output += '<img src="images/' +
+                            val.shortname + '_tn.jpg" alt="' +
+                            val.name + '" />';
+                    output += "<p>" + val.bio + "</p>";
+                    output += "</li>";
+                }
+            });
+            output += "</ul>";
+            $("#update").html(output);
+        });
+    });
+
+</script>
+</body>
+</html>
